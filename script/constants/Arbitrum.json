@@ -1,0 +1,21 @@
+{
+  "poolFactoryOwner": "0x5d7a9c4365a196283470e65d87fb27806eceee42",
+  "feeManager": "0x5d7a9c4365a196283470e65d87fb27806eceee42",
+  "notifyAdmin": "0x5d7a9c4365a196283470e65d87fb27806eceee42",
+  "FactoryRegistry": "0x5d7a9c4365a196283470e65d87fb27806eceee42", // v2
+  "Voter": "0x5d7a9c4365a196283470e65d87fb27806eceee42", // v1
+  "WETH": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+  "team": "0x5d7a9c4365a196283470e65d87fb27806eceee42",
+  "factoryV2": "", // PoolFactory on v2 
+  "nftName": "Slipstream Position NFT v1",
+  "nftSymbol": "AERO-CL-POS",
+  "tokenA": [
+    "0xaf88d065e77c8cC2239327C5EDb3A432268e5831"
+  ],
+  "tokenB": [
+    "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"
+  ],
+  "fees": [
+    500
+  ]
+}
