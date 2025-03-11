@@ -4,6 +4,7 @@ ds-test/=lib/forge-std/lib/ds-test/src/
 forge-std/=lib/forge-std/src/
 hardhat/=node_modules/hardhat/
 @openzeppelin/=lib/openzeppelin-contracts/
+@openzeppelin-7b3e7b/=lib/openzeppelin-contracts-7b3e7b/
 @nomad-xyz/=lib/ExcessivelySafeCall/
 @uniswap/=lib/solidity-lib/
 base64-sol/=lib/base64/

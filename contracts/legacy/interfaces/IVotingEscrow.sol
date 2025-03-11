@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IERC165, IERC721, IERC721Metadata} from "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
-import {IERC6372} from "@openzeppelin/contracts/interfaces/IERC6372.sol";
-import {IERC4906} from "@openzeppelin/contracts/interfaces/IERC4906.sol";
+import {IERC165, IERC721, IERC721Metadata} from "@openzeppelin-7b3e7b/contracts/token/ERC721/extensions/IERC721Metadata.sol";
+import {IERC6372} from "@openzeppelin-7b3e7b/contracts/interfaces/IERC6372.sol";
+import {IERC4906} from "@openzeppelin-7b3e7b/contracts/interfaces/IERC4906.sol";
 import {IVotes} from "../governance/IVotes.sol";
 
 interface IVotingEscrow is IVotes, IERC4906, IERC6372, IERC721Metadata {
