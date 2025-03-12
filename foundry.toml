@@ -20,7 +20,11 @@ runs = 5000
 [rpc_endpoints]
 base_goerli = "${BASE_GOERLI_RPC_URL}"
 base = "${BASE_RPC_URL}"
+arbitrum_goerli = "${ARBITRUM_GOERLI_RPC_URL}"
+arbitrum = "${ARBITRUM_RPC_URL}"
 
 [etherscan]
 base_goerli = { key = "${BASE_GOERLI_ETHERSCAN_API_KEY}", url = "${BASE_GOERLI_ETHERSCAN_VERIFIER_URL}" }
 base = { key = "${BASE_ETHERSCAN_API_KEY}", url = "${BASE_ETHERSCAN_VERIFIER_URL}" }
+arbitrum_goerli = { key = "${ARBITRUM_GOERLI_ETHERSCAN_API_KEY}", url = "${ARBITRUM_GOERLI_ETHERSCAN_VERIFIER_URL}" }
+arbitrum = { key = "${ARBITRUM_ETHERSCAN_API_KEY}", url = "${ARBITRUM_ETHERSCAN_VERIFIER_URL}" }
