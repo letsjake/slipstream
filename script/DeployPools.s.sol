@@ -31,7 +31,8 @@ contract DeployPools is Script {
         feeToTickSpacing[3000] = 200;
         feeToTickSpacing[10_000] = 2_000;
 
-        v3Factory = IUniswapV3Factory(0x1F98431c8aD98523631AE4a59f267346ea31F984);
+        // For using the current price as the initial price of newly created pools
+        v3Factory = IUniswapV3Factory(address(0x33128a8fC17869897dcE68Ed026d694621f6FDfD)); // Base UniswapV3Factory
     }
 
     function run() public {

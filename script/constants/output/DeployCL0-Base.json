@@ -1,0 +1,8 @@
+{
+  "GaugeFactory": "0xf99d7EAbFb67b48BEA9d8Dd5AF44e19c86248bF0",
+  "GaugeImplementation": "0x7c097F4Bb3b1de5081b5F18986f44c1a5d725A66",
+  "NonfungiblePositionManager": "0xC3A227fbEF3da1491193e7bF74b569d7Fa13f9c8",
+  "NonfungibleTokenPositionDescriptor": "0xAFb2E64183B66f5Bc8ED83EbF52b940E7ecA565b",
+  "PoolFactory": "0x976E8019C72c3937C171eb5E5f849d62ff82B9ff",
+  "PoolImplementation": "0x85900d05a6D5d32aC1b6e7e1e703178982c58053"
+}
