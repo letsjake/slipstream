@@ -10,13 +10,8 @@ import {NonfungibleTokenPositionDescriptor} from 'contracts/periphery/Nonfungibl
 import {NonfungiblePositionManager} from 'contracts/periphery/NonfungiblePositionManager.sol';
 import {CLGauge} from 'contracts/gauge/CLGauge.sol';
 import {CLGaugeFactory} from 'contracts/gauge/CLGaugeFactory.sol';
-import {CustomSwapFeeModule} from 'contracts/core/fees/CustomSwapFeeModule.sol';
-import {CustomUnstakedFeeModule} from 'contracts/core/fees/CustomUnstakedFeeModule.sol';
-import {MixedRouteQuoterV1} from 'contracts/periphery/lens/MixedRouteQuoterV1.sol';
-import {QuoterV2} from 'contracts/periphery/lens/QuoterV2.sol';
-import {SwapRouter} from 'contracts/periphery/SwapRouter.sol';
 
-contract DeployCL is Script {
+contract DeployCL0 is Script {
     using stdJson for string;
 
     uint256 public deployPrivateKey = vm.envUint('PRIVATE_KEY_DEPLOY');
@@ -26,14 +21,8 @@ contract DeployCL is Script {
     string public jsonConstants;
 
     // loaded variables
-    address public team;
     address public weth;
     address public voter;
-    address public factoryRegistry;
-    address public poolFactoryOwner;
-    address public feeManager;
-    address public notifyAdmin;
-    address public factoryV2;
     string public nftName;
     string public nftSymbol;
 
@@ -44,11 +33,6 @@ contract DeployCL is Script {
     NonfungiblePositionManager public nft;
     CLGauge public gaugeImplementation;
     CLGaugeFactory public gaugeFactory;
-    CustomSwapFeeModule public swapFeeModule;
-    CustomUnstakedFeeModule public unstakedFeeModule;
-    MixedRouteQuoterV1 public mixedQuoter;
-    QuoterV2 public quoter;
-    SwapRouter public swapRouter;
 
     function run() public {
         string memory root = vm.projectRoot();
@@ -56,18 +40,12 @@ contract DeployCL is Script {
         string memory path = concat(basePath, constantsFilename);
         jsonConstants = vm.readFile(path);
 
-        team = abi.decode(vm.parseJson(jsonConstants, '.team'), (address));
         weth = abi.decode(vm.parseJson(jsonConstants, '.WETH'), (address));
         voter = abi.decode(vm.parseJson(jsonConstants, '.Voter'), (address));
-        factoryRegistry = abi.decode(vm.parseJson(jsonConstants, '.FactoryRegistry'), (address));
-        poolFactoryOwner = abi.decode(vm.parseJson(jsonConstants, '.poolFactoryOwner'), (address));
-        feeManager = abi.decode(vm.parseJson(jsonConstants, '.feeManager'), (address));
-        notifyAdmin = abi.decode(vm.parseJson(jsonConstants, '.notifyAdmin'), (address));
-        factoryV2 = abi.decode(vm.parseJson(jsonConstants, '.factoryV2'), (address));
         nftName = abi.decode(vm.parseJson(jsonConstants, '.nftName'), (string));
         nftSymbol = abi.decode(vm.parseJson(jsonConstants, '.nftSymbol'), (string));
 
-        require(address(voter) != address(0)); // sanity check for constants file fillled out correctly
+        require(address(voter) != address(0));
 
         vm.startBroadcast(deployerAddress);
         // deploy pool + factory
@@ -92,33 +70,7 @@ contract DeployCL is Script {
         });
         vm.stopBroadcast();
 
-        vm.startBroadcast(deployerAddress);
-        // set nft manager in the factories
-        gaugeFactory.setNonfungiblePositionManager(address(nft));
-        gaugeFactory.setNotifyAdmin(notifyAdmin);
-
-        // deploy fee modules
-        
-        swapFeeModule = new CustomSwapFeeModule({_factory: address(poolFactory)});
-        unstakedFeeModule = new CustomUnstakedFeeModule({_factory: address(poolFactory)});
-        poolFactory.setSwapFeeModule({_swapFeeModule: address(swapFeeModule)});
-        poolFactory.setUnstakedFeeModule({_unstakedFeeModule: address(unstakedFeeModule)});
-
-        // transfer permissions
-        nft.setOwner(team);
-        poolFactory.setOwner(poolFactoryOwner);
-        poolFactory.setSwapFeeManager(feeManager);
-        poolFactory.setUnstakedFeeManager(feeManager);
-        vm.stopBroadcast();
-
-        vm.startBroadcast(deployerAddress);
-        mixedQuoter = new MixedRouteQuoterV1({_factory: address(poolFactory), _factoryV2: factoryV2, _WETH9: weth});
-        quoter = new QuoterV2({_factory: address(poolFactory), _WETH9: weth});
-        swapRouter = new SwapRouter({_factory: address(poolFactory), _WETH9: weth});
-        vm.stopBroadcast();
-
-        // write to file
-        path = concat(basePath, 'output/DeployCL-');
+        path = concat(basePath, 'output/DeployCL0-');
         path = concat(path, outputFilename);
         vm.writeJson(vm.serializeAddress('', 'PoolImplementation', address(poolImplementation)), path);
         vm.writeJson(vm.serializeAddress('', 'PoolFactory', address(poolFactory)), path);
@@ -126,22 +78,10 @@ contract DeployCL is Script {
         vm.writeJson(vm.serializeAddress('', 'NonfungiblePositionManager', address(nft)), path);
         vm.writeJson(vm.serializeAddress('', 'GaugeImplementation', address(gaugeImplementation)), path);
         vm.writeJson(vm.serializeAddress('', 'GaugeFactory', address(gaugeFactory)), path);
-        vm.writeJson(vm.serializeAddress('', 'SwapFeeModule', address(swapFeeModule)), path);
-        vm.writeJson(vm.serializeAddress('', 'UnstakedFeeModule', address(unstakedFeeModule)), path);
-        vm.writeJson(vm.serializeAddress('', 'MixedQuoter', address(mixedQuoter)), path);
-        vm.writeJson(vm.serializeAddress('', 'Quoter', address(quoter)), path);
-        vm.writeJson(vm.serializeAddress('', 'SwapRouter', address(swapRouter)), path);
+        
     }
 
     function concat(string memory a, string memory b) internal pure returns (string memory) {
         return string(abi.encodePacked(a, b));
-    }
-
-    function hasCode(address _contract) public view returns (uint256) {
-        uint256 size;
-        assembly {
-            size := extcodesize(_contract)
-        }
-        return size;
     }
 }
